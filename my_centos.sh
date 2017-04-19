@@ -29,5 +29,3 @@ EOF
 cat << 'EOF' >> /etc/vimrc
 set ic ai et ts=4 sts=4
 EOF
-
-. /etc/profile
