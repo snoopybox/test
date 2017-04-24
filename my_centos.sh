@@ -3,22 +3,26 @@
 sed -ci 's/^SELINUX=.\+/SELINUX=disabled/' /etc/selinux/config
 setenforce 0
 
+yum -y install wget make gcc gcc-c++ vim man ntp
+
 if [ -f /usr/bin/systemctl ]
 then
+    systemctl enable ntpd
     systemctl disable firewalld
     systemctl disable postfix
+    systemctl start ntpd
     systemctl stop firewalld
     systemctl stop postfix
 else
+    chkconfig ntpd on
     chkconfig iptables off
     chkconfig ip6tables off
     chkconfig postfix off
+    service ntpd start
     service iptables stop
     service ip6tables stop
     service postfix stop
 fi
-
-yum -y install wget make gcc gcc-c++ vim man
 
 cat << 'EOF' >> /etc/profile
 alias vi=vim
