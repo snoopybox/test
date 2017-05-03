@@ -25,6 +25,7 @@ else
 fi
 
 cat << 'EOF' >> /etc/profile
+shopt -s cdspell
 alias vi=vim
 alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
