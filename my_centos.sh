@@ -3,7 +3,7 @@
 sed -ci 's/^SELINUX=.\+/SELINUX=disabled/' /etc/selinux/config
 setenforce 0
 
-yum -y install wget make gcc gcc-c++ vim man ntp
+yum -y install wget make gcc gcc-c++ vim man ntp xz gzip bzip2
 
 if [ -f /usr/bin/systemctl ]
 then
