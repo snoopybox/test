@@ -44,8 +44,8 @@ EOF
 sysctl -p > /dev/null
 
 cat << 'EOF' >> /etc/security/limits.conf
-*		soft		nproc		65536
-*		hard		nproc		65536
-*		soft		nofile		655360
-*		hard		nofile		655360
+*       soft    nproc   65536
+*       hard    nproc   65536
+*       soft    nofile  655360
+*       hard    nofile  655360
 EOF
