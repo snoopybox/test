@@ -31,6 +31,7 @@ cat << 'EOF' >> /etc/profile
 shopt -s cdspell
 umask 0027
 alias vi=vim
+export EDITOR=vim
 alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
 EOF
