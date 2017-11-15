@@ -6,7 +6,7 @@ setenforce 0
 sed -i '/tsflags=nodocs/d' /etc/yum.conf
 
 yum -y install wget make gcc gcc-c++ vim man ntp xz gzip bzip2 unzip net-tools bind-utils \
-traceroute sysstat lsof telnet tcpdump file git
+traceroute sysstat lsof telnet tcpdump file git openssl-devel
 
 if [ -f /usr/bin/systemctl ]
 then
