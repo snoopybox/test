@@ -13,9 +13,11 @@ then
     systemctl enable ntpd
     systemctl disable firewalld
     systemctl disable postfix
+    systemctl disable NetworkManager
     systemctl start ntpd
     systemctl stop firewalld
     systemctl stop postfix
+    systemctl stop NetworkManager
 else
     chkconfig ntpd on
     chkconfig iptables off
