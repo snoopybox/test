@@ -1,0 +1,45 @@
+<html>
+<body>
+    <div id="input_area">
+        <table>
+            <tr>
+                <td>시작 가격</td>
+                <td><input type="text" id="start_price"></td>
+            </tr>    
+            <tr>
+                <td>승수</td>
+                <td><input type="text" id="multiplier"></td>
+            </tr>
+            <tr>
+                <td>출력 개수</td>
+                <td><input type="text" id="print_count"></td>
+            </tr>
+        </table>
+        <button type="button" onclick="calc()">계산하기</button>
+    </div>
+    <div id="output_area">
+    </div>
+    <script type="text/javascript">
+        function calc(){
+            var start_price = document.getElementById("start_price").value;
+            var multiplier = document.getElementById("multiplier").value;
+            var print_count = document.getElementById("print_count").value;
+            var result_price = [start_price];
+            var before_val = start_price;
+            for(var i=0; i<print_count-1; i++){
+                before_val *= multiplier;
+                result_price.push(before_val);
+            }
+            var result_html = "<table>";
+            var rounded_val;
+            for(var i=0; i<result_price.length; i++){
+                rounded_val = Math.round(result_price[i]/10)*10;
+                result_html += "<tr><td>" + rounded_val + "</td></tr>";
+            }
+            result_html += "</table>";
+            document.getElementById("output_area").innerHTML = result_html;
+            return;
+        }
+    </script>
+</body>
+</html>
