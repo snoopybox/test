@@ -11,8 +11,24 @@
                 <td><input type="text" id="multiplier"></td>
             </tr>
             <tr>
+                <td>최소단위</td>
+                <td>
+                    <select id="unit">
+                        <option value="10">10</option>
+                        <option value="100">100</option>
+                        <option value="1000">1000</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
                 <td>출력 개수</td>
-                <td><input type="text" id="print_count"></td>
+                <td>
+                    <select id="print_count">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>                    
+                    </select>
+                </td>
             </tr>
         </table>
         <button type="button" onclick="calc()">계산하기</button>
@@ -23,6 +39,7 @@
         function calc(){
             var start_price = document.getElementById("start_price").value;
             var multiplier = document.getElementById("multiplier").value;
+            var unit = document.getElementById("unit").value;
             var print_count = document.getElementById("print_count").value;
             var result_price = [start_price];
             var before_val = start_price;
@@ -33,7 +50,7 @@
             var result_html = "<table>";
             var rounded_val;
             for(var i=0; i<result_price.length; i++){
-                rounded_val = Math.round(result_price[i]/10)*10;
+                rounded_val = Math.round(result_price[i]/unit)*unit;
                 result_html += "<tr><td>" + rounded_val + "</td></tr>";
             }
             result_html += "</table>";
