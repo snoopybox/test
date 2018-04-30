@@ -39,7 +39,7 @@ alias egrep='egrep --color=auto'
 EOF
 
 cat << 'EOF' >> /etc/vimrc
-set ic ai et ts=4 sts=4 sw=4 pastetoggle=<F2>
+set ic ai et ts=4 sts=4 sw=4 cc=80 pastetoggle=<F2>
 EOF
 
 cat << 'EOF' >> /etc/sysctl.conf
