@@ -34,6 +34,7 @@ alias vi=vim
 export EDITOR=vim
 alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
+HISTTIMEFORMAT="%F %T "
 EOF
 
 cat << 'EOF' >> /etc/vimrc
