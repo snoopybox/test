@@ -54,3 +54,8 @@ cat << 'EOF' >> /etc/security/limits.conf
 *       soft    nofile  655360
 *       hard    nofile  655360
 EOF
+
+cat << 'EOF' >> /var/spool/cron/root
+0 2 * * * /usr/bin/yum makecache &>/dev/null
+EOF
+
