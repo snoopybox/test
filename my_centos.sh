@@ -31,10 +31,11 @@ cat << 'EOF' >> /etc/profile
 shopt -s cdspell
 umask 0027
 alias vi=vim
-export EDITOR=vim
 alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
+HISTSIZE=65536
 HISTTIMEFORMAT="%F %T "
+export EDITOR=vim
 EOF
 
 cat << 'EOF' >> /etc/vimrc
@@ -58,4 +59,3 @@ EOF
 cat << 'EOF' >> /var/spool/cron/root
 0 2 * * * /usr/bin/yum makecache &>/dev/null
 EOF
-
