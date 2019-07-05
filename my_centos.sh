@@ -56,9 +56,7 @@ cat << 'EOF' >> /etc/security/limits.conf
 *       hard    nofile  655360
 EOF
 
-crontab -l > /tmp/root
-cat << 'EOF' >> /tmp/root
-0 2 * * * /usr/bin/yum makecache &>/dev/null
+cat << 'EOF' > /etc/cron.daily/yum_makecache
+/usr/bin/yum makecache &>/dev/null
 EOF
-crontab /tmp/root
-rm -f /tmp/root
+chmod +x /etc/cron.daily/yum_makecache
