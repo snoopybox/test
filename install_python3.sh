@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PYTHON_VER=3.7.2
+PYTHON_VER=3.7.3
 PREFIX=/app/python3
 
 mkdir -p $PREFIX
