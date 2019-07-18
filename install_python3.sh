@@ -3,6 +3,7 @@
 PYTHON_VER=3.7.4
 PREFIX=/app/python3
 
+umask 22
 mkdir -p $PREFIX
 yum -y install wget make gcc xz openssl-devel bzip2-devel ncurses-devel \
 gdbm-devel xz-devel sqlite-devel readline-devel tk-devel libffi-devel
