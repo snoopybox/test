@@ -4,27 +4,24 @@ sed -ci 's/^SELINUX=.\+/SELINUX=disabled/' /etc/selinux/config
 setenforce 0
 
 yum -y install wget make gcc gcc-c++ vim man ntp xz gzip bzip2 unzip net-tools bind-utils \
-traceroute sysstat lsof telnet tcpdump file git openssl-devel bash-completion ca-certificates
+traceroute sysstat lsof telnet tcpdump file git openssl-devel bash-completion ca-certificates \
+ntpdate acpid
 
 if [ -f /usr/bin/systemctl ]
 then
-    systemctl enable ntpd
-    systemctl disable firewalld
-    systemctl disable postfix
-    systemctl disable NetworkManager
-    systemctl start ntpd
-    systemctl stop firewalld
-    systemctl stop postfix
-    systemctl stop NetworkManager
+    systemctl enable ntpd && systemctl start ntpd
+    systemctl enable ntpdate && systemctl start ntpdate
+    systemctl enable acpid && systemctl start acpid
+    systemctl disable firewalld && systemctl stop firewalld
+    systemctl disable postfix && systemctl stop postfix
+    systemctl disable NetworkManager && systemctl stop NetworkManager
 else
-    chkconfig ntpd on
-    chkconfig iptables off
-    chkconfig ip6tables off
-    chkconfig postfix off
-    service ntpd start
-    service iptables stop
-    service ip6tables stop
-    service postfix stop
+    chkconfig ntpd on && service ntpd start
+    chkconfig ntpdate on && service ntpdate start
+    chkconfig acpid on && service acpid start
+    chkconfig iptables off && service iptables stop
+    chkconfig ip6tables off && service ip6tables stop
+    chkconfig postfix off && service postfix stop
 fi
 
 cat << 'EOF' >> /etc/profile
