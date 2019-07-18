@@ -57,3 +57,7 @@ cat << 'EOF' > /etc/cron.daily/yum_makecache
 /usr/bin/yum makecache &>/dev/null
 EOF
 chmod +x /etc/cron.daily/yum_makecache
+
+echo
+echo '=== Complete!!! ==='
+echo
