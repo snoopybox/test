@@ -10,14 +10,14 @@ ntpdate acpid
 if [ -f /usr/bin/systemctl ]
 then
     systemctl enable ntpd && systemctl start ntpd
-    systemctl enable ntpdate && systemctl start ntpdate
+    systemctl enable ntpdate
     systemctl enable acpid && systemctl start acpid
     systemctl disable firewalld && systemctl stop firewalld
     systemctl disable postfix && systemctl stop postfix
     systemctl disable NetworkManager && systemctl stop NetworkManager
 else
     chkconfig ntpd on && service ntpd start
-    chkconfig ntpdate on && service ntpdate start
+    chkconfig ntpdate on
     chkconfig acpid on && service acpid start
     chkconfig iptables off && service iptables stop
     chkconfig ip6tables off && service ip6tables stop
