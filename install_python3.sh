@@ -20,5 +20,6 @@ echo "${PREFIX}/lib" > /etc/ld.so.conf.d/python3.conf
 ldconfig
 echo "export PATH=${PREFIX}/bin:\$PATH" >> /etc/profile
 source /etc/profile
+pip3 install -U pip setuptools
 
 python3 -V
