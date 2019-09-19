@@ -43,6 +43,12 @@ cat << 'EOF' >> /etc/sysctl.conf
 net.ipv6.conf.all.disable_ipv6 = 1
 net.ipv6.conf.default.disable_ipv6 = 1
 net.ipv6.conf.lo.disable_ipv6 = 1
+
+net.core.netdev_max_backlog = 8192
+net.ipv4.tcp_max_syn_backlog = 4096
+net.core.somaxconn = 4096
+net.ipv4.ip_local_port_range = 10000 65535
+net.ipv4.tcp_timestamps = 1
 EOF
 sysctl -p > /dev/null
 
