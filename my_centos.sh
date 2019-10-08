@@ -40,15 +40,32 @@ set ic ai et ts=4 sts=4 sw=4 pastetoggle=<F2>
 EOF
 
 cat << 'EOF' >> /etc/sysctl.conf
+fs.file-max = 3264516
+
+kernel.threads-max = 513258
+
+net.core.netdev_max_backlog = 8192
+net.core.somaxconn = 4096
+
+net.core.rmem_default = 4194304
+net.core.rmem_max = 25165824
+net.core.wmem_default = 4194304
+net.core.wmem_max = 25165824
+
+net.ipv4.tcp_mem = 8388608 8388608 8388608
+net.ipv4.tcp_rmem = 4096 87380 25165824
+net.ipv4.tcp_wmem = 4096 65536 25165824
+
+net.ipv4.ip_local_port_range = 10000 65535
+
+net.ipv4.tcp_max_syn_backlog = 4096
+net.ipv4.tcp_max_tw_buckets = 11520000
+
+net.ipv4.tcp_timestamps = 1
+
 net.ipv6.conf.all.disable_ipv6 = 1
 net.ipv6.conf.default.disable_ipv6 = 1
 net.ipv6.conf.lo.disable_ipv6 = 1
-
-net.core.netdev_max_backlog = 8192
-net.ipv4.tcp_max_syn_backlog = 4096
-net.core.somaxconn = 4096
-net.ipv4.ip_local_port_range = 10000 65535
-net.ipv4.tcp_timestamps = 1
 EOF
 sysctl -p > /dev/null
 
