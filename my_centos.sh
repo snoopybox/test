@@ -1,5 +1,7 @@
 #!/bin/bash
 
+ln -sf /usr/share/zoneinfo/Asia/Seoul /etc/localtime
+
 sed -ci 's/^SELINUX=.\+/SELINUX=disabled/' /etc/selinux/config
 setenforce 0
 
