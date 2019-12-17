@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PYTHON_VER=3.7.4
+PYTHON_VER=3.8.0
 PREFIX=/app/python3
 
 umask 22
