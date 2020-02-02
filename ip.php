@@ -1,5 +1,7 @@
 <?php
-if(strpos($_SERVER['HTTP_USER_AGENT'], 'curl') === False){
+if(preg_match('/curl|wget/i', $_SERVER['HTTP_USER_AGENT'])){
+    echo $_SERVER['REMOTE_ADDR']."\n";
+} else {
     echo <<< EOF
 <html>
 
@@ -23,7 +25,5 @@ if(strpos($_SERVER['HTTP_USER_AGENT'], 'curl') === False){
 
 </html>
 EOF;
-} else {
-    echo $_SERVER['REMOTE_ADDR']."\n";
 }
 ?>
