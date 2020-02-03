@@ -7,7 +7,7 @@ setenforce 0
 
 yum -y install wget make gcc gcc-c++ vim man ntp xz gzip bzip2 unzip net-tools bind-utils \
 traceroute sysstat lsof telnet tcpdump file git openssl-devel bash-completion ca-certificates \
-ntpdate acpid psmisc
+ntpdate acpid psmisc strace
 
 if [ -f /usr/bin/systemctl ]
 then
