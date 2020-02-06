@@ -35,6 +35,7 @@ alias egrep='egrep --color=auto'
 HISTSIZE=65536
 HISTTIMEFORMAT="%F %T "
 export EDITOR=vim
+export PYTHONIOENCODING=UTF-8
 EOF
 
 cat << 'EOF' >> /etc/vimrc
