@@ -44,6 +44,7 @@ EOF
 
 cat << 'EOF' >> /etc/sysctl.conf
 fs.file-max = 3264516
+fs.inotify.max_user_watches = 65536
 
 kernel.threads-max = 513258
 
