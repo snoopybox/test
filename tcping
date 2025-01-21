@@ -1,0 +1,63 @@
+#!/usr/bin/env python3
+
+import socket
+import time
+import argparse
+from contextlib import closing
+
+
+def check_tcp_port(ip, port, timeout):
+    now = time.time()
+    with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as sock:
+        sock.settimeout(timeout)
+        if sock.connect_ex((ip, port)) == 0:
+            return (True, time.time() - now)
+    return (False, time.time() - now)
+
+
+def get_line(ip, port, result):
+    success, duration = result
+    duration = f'{duration*1000:.3f}'
+    success = 'Port is open' if success else 'No response'
+    out = f'Probing {ip}:{port}/tcp - {success} - time={duration}ms'
+    return out
+
+
+def get_statistics(ip, port, result):
+    total_count = len(result)
+    durations = [x[1] * 1000 for x in result]
+    min_time = min(durations)
+    max_time = max(durations)
+    sum_time = sum(durations)
+    success = sum(x[0] for x in result)
+    fail = total_count - success
+    avg = sum_time / total_count
+    fail_rate = fail * 100 / total_count
+    o = ('',
+         f'Ping statistics for {ip}:{port}',
+         f'     {total_count} probes sent.',
+         f'     {success} successful, {fail} failed.  ({fail_rate:.2f}% fail)',
+         f'Approximate trip times in milli-seconds:',
+         f'Minimum = {min_time:.3f}ms, Maximum = {max_time:.3f}ms, Average = {avg:.3f}ms',
+         '',)
+    return '\n'.join(o)
+
+
+def main():
+    parser = argparse.ArgumentParser(description="tcping for linux")
+    parser.add_argument("host", type=str, help="Destination IP/Domain")
+    parser.add_argument("port", type=int, help="Destination TCP Port")
+    parser.add_argument("--timeout", type=int, default=2, help="Timeout")
+    parser.add_argument("--count", type=int, default=3, help="Count")
+    args = parser.parse_args()
+    result = []
+    for _ in range(args.count):
+        res = check_tcp_port(args.host, args.port, args.timeout)
+        print(get_line(args.host, args.port, res))
+        result.append(res)
+        time.sleep(1)
+    print(get_statistics(args.host, args.port, result))
+
+
+if __name__ == '__main__':
+    main()
