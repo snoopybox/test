@@ -2,24 +2,30 @@
 
 import socket
 import time
+import sys
 import argparse
 from contextlib import closing
 
+MAX_COUNT = 86400
+
 
 def check_tcp_port(ip, port, timeout):
-    now = time.time()
     with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as sock:
         sock.settimeout(timeout)
+        now = time.time()
         if sock.connect_ex((ip, port)) == 0:
             return (True, time.time() - now)
     return (False, time.time() - now)
 
 
-def get_line(ip, port, result):
+def get_line(ip, port, result, timestamp):
     success, duration = result
     duration = f'{duration*1000:.3f}'
     success = 'Port is open' if success else 'No response'
     out = f'Probing {ip}:{port}/tcp - {success} - time={duration}ms'
+    if timestamp:
+        now = time.strftime('%F %T')
+        out = f'{now} {out}'
     return out
 
 
@@ -38,25 +44,49 @@ def get_statistics(ip, port, result):
          f'     {total_count} probes sent.',
          f'     {success} successful, {fail} failed.  ({fail_rate:.2f}% fail)',
          f'Approximate trip times in milli-seconds:',
-         f'Minimum = {min_time:.3f}ms, Maximum = {max_time:.3f}ms, Average = {avg:.3f}ms',
+         f'     Minimum = {min_time:.3f}ms, Maximum = {max_time:.3f}ms, Average = {avg:.3f}ms',
          '',)
     return '\n'.join(o)
 
 
 def main():
-    parser = argparse.ArgumentParser(description="tcping for linux")
+    parser = argparse.ArgumentParser(
+        description=DESCRIPTION, formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument("host", type=str, help="Destination IP/Domain")
     parser.add_argument("port", type=int, help="Destination TCP Port")
-    parser.add_argument("--timeout", type=int, default=2, help="Timeout")
-    parser.add_argument("--count", type=int, default=3, help="Count")
+    parser.add_argument("-w", "--timeout", type=float, default=2,
+                        help="Timeout Seconds")
+    parser.add_argument("-n", "--count", type=int, default=10,
+                        help=f"Count (Max {MAX_COUNT})")
+    parser.add_argument("-d", "--timestamp", action='store_true',
+                        help=f"Print timestamp")
+    parser.add_argument("-t", action='store_true',
+                        help=f"tcping continuously up to {MAX_COUNT} times")
+
+    if len(sys.argv) < 3:
+        parser.print_help()
+        sys.exit(1)
+
     args = parser.parse_args()
+    ip = socket.gethostbyname(args.host)
+    count = min(args.count, MAX_COUNT)
+    if args.t:
+        count = MAX_COUNT
+    print(f'Tcping {args.host} [{ip}] :\n')
     result = []
-    for _ in range(args.count):
-        res = check_tcp_port(args.host, args.port, args.timeout)
-        print(get_line(args.host, args.port, res))
-        result.append(res)
-        time.sleep(1)
-    print(get_statistics(args.host, args.port, result))
+    try:
+        for _ in range(count):
+            res = check_tcp_port(ip, args.port, args.timeout)
+            sleep_time = max(1 - res[1], 0)
+            print(get_line(ip, args.port, res, args.timestamp))
+            result.append(res)
+            time.sleep(sleep_time)
+    except KeyboardInterrupt:
+        pass
+    try:
+        print(get_statistics(ip, args.port, result))
+    except:
+        pass
 
 
 if __name__ == '__main__':
